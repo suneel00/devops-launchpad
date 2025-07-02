@@ -1,4 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+  labels:
+    app: flask-app
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-app
   template:
     metadata:
       labels:
@@ -7,7 +17,7 @@ spec:
       imagePullSecrets:
         - name: ghcr-secret
       containers:
-      - name: flask-container
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        ports:
-        - containerPort: 5000
+        - name: flask-container
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 5000
