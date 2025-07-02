@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: flask-app
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: ghcr.io/suneel00/flask-app
+    argocd-image-updater.argoproj.io/allow-tags: regexp:^v[0-9]+.[0-9]+.[0-9]+$
+    argocd-image-updater.argoproj.io/write-back-method: argocd
+    argocd-image-updater.argoproj.io/force-update: "true"
+    argocd-image-updater.argoproj.io/helm-image-name: image.repository
+    argocd-image-updater.argoproj.io/helm-tag-name: image.tag
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/suneel00/devops-launchpad.git
+    targetRevision: main
+    path: helm-chart
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
