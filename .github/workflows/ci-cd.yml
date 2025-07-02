@@ -25,9 +25,3 @@ jobs:
       run: |
         docker build -t ghcr.io/${{ github.repository }}:${{ github.run_number }} ./app
         docker push ghcr.io/${{ github.repository }}:${{ github.run_number }}
-
-    - name: Deploy with Helm
-      run: |
-        helm upgrade --install flask-app ./helm-chart \
-          --set image.repository=ghcr.io/${{ github.repository }} \
-          --set image.tag=${{ github.run_number }}
