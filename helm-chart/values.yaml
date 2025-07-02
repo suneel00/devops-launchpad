@@ -1,0 +1,9 @@
+image:
+  repository: ghcr.io/suneel00/flask-app
+  tag: latest
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 5000
+  nodePort: 30036
